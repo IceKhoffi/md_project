@@ -87,8 +87,10 @@ if st.session_state.view == "search":
     
     st.subheader("Available TV Shows:")
 
-    # 5 static title
-    samp = df[['title']][354:359]
+    # 5 static title | Agar title yang static tidak terganti tiap run 
+    start_pos = df.index.get_loc(indices['Signal']) # akan mencari index dari title yang diinginkan
+    samp = df.iloc[start_pos : start_pos + 5, :][['title']].copy() # kemudian di copy pada samp
+    samp.reset_index(drop=True, inplace=True) # menambahkan link poster pada samp
     samp['poster'] = [
         "assets/signal.jpeg",
         "assets/slasher.jpeg",
@@ -97,7 +99,6 @@ if st.session_state.view == "search":
         "assets/my_love_six_stories_of_true_love.jpeg"
     ]
     
-
     cols = st.columns(len(samp))
     for col, row in zip(cols, samp.itertuples()):
         with col:
