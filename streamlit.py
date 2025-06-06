@@ -2,7 +2,7 @@ import streamlit as st
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 import numpy as np
-import pickle
+import joblib
 
 st.set_page_config(page_title = "Netflix TV Show", layout = "wide")
 st.title("Netflix TV Show")
@@ -17,11 +17,11 @@ def load_data():
     """
 
     with open("pickle/df.pkl", "rb") as f:
-        df = pickle.load(f)
+        df = joblib.load(f)
     with open("pickle/tfidf_matrix.pkl", "rb") as f:
         # Jadi karena cosine_sim terlalu berat ketika dump ke pickle jadinya matrixnya yang di dump
         # dan cosine_sim the initialize ketika berada di streamlit
-        tfidf_matrix = pickle.load(f)
+        tfidf_matrix = joblib.load(f)
         cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
     
     return df, cosine_sim
